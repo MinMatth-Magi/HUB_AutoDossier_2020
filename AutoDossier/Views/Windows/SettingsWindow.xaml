@@ -1,0 +1,64 @@
+﻿<Window
+	x:Class="AutoDossier.Views.Windows.SettingsWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="clr-namespace:AutoDossier.Views.Windows"
+	mc:Ignorable="d"
+	Title="Settings" Height="450" Width="800"
+	Background="LightGray">
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		
+		<ListView
+			Name="ListPages"
+			Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+			Margin="5" Padding="5,3"
+			BorderThickness="2" BorderBrush="DimGray"
+			Background="White"
+			ItemsSource="{Binding Path=Pages}">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Path=Title}"/>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+
+		<Frame
+			Grid.Row="0" Grid.Column="1"
+			BorderThickness="2" BorderBrush="DimGray"
+			Margin="5"
+			Background="White"
+			Content="{Binding ElementName=ListPages, Path=SelectedItem}"
+			NavigationUIVisibility="Hidden">
+		</Frame>
+
+		<StackPanel
+			Grid.Row="1" Grid.Column="1"
+			Orientation="Horizontal"
+			HorizontalAlignment="Right"
+			Margin="5,2">
+			<Button
+				Margin="3,0" Padding="2"
+				Content="Cancel"
+				Command="{Binding Path=ChangesCommand}"
+				CommandParameter="Cancel"/>
+			<Button
+				Margin="3,0" Padding="2"
+				Content="Apply"
+				Command="{Binding Path=ChangesCommand}"
+				CommandParameter="Apply"/>
+		</StackPanel>
+
+	</Grid>
+
+</Window>
