@@ -19,19 +19,38 @@ namespace AutoDossier.ViewModels
 
 		#region Fields
 
-		private Models.FileSchema _schema;
+		private Models.MainSettings _mainSettings;
+
+		private String _log;
+
+		private Models.XmlAnything<Models.ISchema> _schema;
+		private FolderSchemaViewModel _parent;
+
+		private Models.AutoDossierEngine _engine;
 
 		#endregion
 
 
 		#region Constructors/Destructors
 
-		public FileSchemaViewModel(Models.FileSchema schema)
+		public FileSchemaViewModel(
+			Models.MainSettings mainSettings,
+			Models.FileSchema schema,
+			FolderSchemaViewModel parent,
+			String log)
 		{
-			_schema = schema;
+			_log = log;
+			_mainSettings = mainSettings;
+
+			_schema = new Models.XmlAnything<Models.ISchema>();
+			_schema.Value = schema;
+			_parent = parent;
+
+			_engine = new Models.AutoDossierEngine(_mainSettings, schema, parent, _log);
 
 			AddDataCommand = new Commands.AddDataCommand(this);
 			RemoveDataCommand = new Commands.RemoveDataCommand(this);
+			EngineOnOffCommand = new Commands.EngineOnOffCommand(this);
 		}
 
 		#endregion
@@ -60,6 +79,14 @@ namespace AutoDossier.ViewModels
 			Schema.Data.ScopedDatas.Remove(data);
 		}
 
+		public void EngineOnOff()
+		{
+			if (_engine.IsActive)
+				_engine.Deactivate();
+			else
+				_engine.Activate();
+		}
+
 
 		#endregion
 
@@ -67,13 +94,30 @@ namespace AutoDossier.ViewModels
 		#region Members
 
 
-		public Models.FileSchema Schema
+		public Models.XmlAnything<Models.ISchema> XmlSchema
 		{
 			get { return _schema; }
+		}
+
+
+		public Models.FileSchema Schema
+		{
+			get { return _schema.Value as Models.FileSchema; }
 			set
 			{
-				_schema = value;
+				_schema.Value = value;
 				OnPropertyChanged("Schema");
+			}
+		}
+
+
+		public Models.AutoDossierEngine Engine
+		{
+			get { return _engine; }
+			set
+			{
+				_engine = value;
+				OnPropertyChanged("Engine");
 			}
 		}
 
@@ -84,6 +128,9 @@ namespace AutoDossier.ViewModels
 		public ICommand AddDataCommand
 		{ get; private set; }
 		public ICommand RemoveDataCommand
+		{ get; private set; }
+
+		public ICommand EngineOnOffCommand
 		{ get; private set; }
 
 

@@ -85,17 +85,13 @@
 
 		</StackPanel>
 
-		<ListView
+		<!-- Logs -->
+		<TextBlock
 			Grid.Row="2"
 			Grid.Column="0" Grid.ColumnSpan="2"
+			Height="60"
 			Margin="4"
-			ItemsSource="{Binding Path=ErrorCodes}">
-			<ListView.ItemTemplate>
-				<DataTemplate>
-					<TextBlock Text="{Binding}"/>
-				</DataTemplate>
-			</ListView.ItemTemplate>
-		</ListView>
+			Text="{Binding Path=Log}"/>
 
 	</Grid>
 </Window>

@@ -19,12 +19,13 @@ namespace AutoDossier.ViewModels
 		#region Fields
 
 		private Models.FolderSchema _arborescence;
-		private Models.ScopedData _globalData;
 		private SettingsViewModel _settingsViewModel;
 		private ObservableCollection<Enums.ErrorCode> _errorCodes;
 		private FolderSchemaViewModel _arborescenceViewModel;
 
-		private Models.AutoDossierEngine _engine;
+		private Models.MainSettings _mainSettings;
+
+		private String _log;
 
 		#endregion
 
@@ -33,9 +34,8 @@ namespace AutoDossier.ViewModels
 
 		public MainViewModel()
 		{
-			_globalData = new Models.ScopedData { ScopedDatas = new ObservableCollection<Models.Data> {
-				new Models.Data { Name = "ScanFolder", Value = "usr/scans" }
-			} };
+			_log = "";
+			_mainSettings = new Models.MainSettings() { ScanFolder = "C:\\Users\\MinMatth-Magi\\Desktop\\Input", ScanFile="Fichier" };
 			try {
 				XmlSerializer xs = new XmlSerializer(typeof(Models.FolderSchema));
 				using (StreamReader rd = new StreamReader("Resources/Settings/arborescence.xml")) {
@@ -44,9 +44,9 @@ namespace AutoDossier.ViewModels
 			} catch (Exception) {
 				_arborescence = new Models.FolderSchema();
 			}
-			_settingsViewModel = _settingsViewModel = new SettingsViewModel(_arborescence, _globalData);
+			_settingsViewModel = _settingsViewModel = new SettingsViewModel(_mainSettings, _arborescence, _log);
 			_errorCodes = new ObservableCollection<Enums.ErrorCode> { Enums.ErrorCode.NO_ERROR };
-			_arborescenceViewModel = new FolderSchemaViewModel(_arborescence);
+			_arborescenceViewModel = new FolderSchemaViewModel(_mainSettings, _arborescence, null, _log);
 
 			OpenWindowCommand = new Commands.OpenWindowCommand(Commands.OpenWindowCommand.WindowType.SETTINGS, _settingsViewModel);
 			DummyDebugCommand = new Commands.DummyDebugCommand(this);
@@ -73,6 +73,7 @@ namespace AutoDossier.ViewModels
 
 		#region Members
 
+
 		public Models.FolderSchema Arborescence
 		{
 			get { return _arborescence; }
@@ -93,22 +94,22 @@ namespace AutoDossier.ViewModels
 		}
 
 
-		public Models.ScopedData GlobalData
-		{
-			get { return _globalData; }
-			private set {
-				_globalData = value;
-				OnPropertyChanged("GlobalData");
-			}
-		}
-
-
 		public ObservableCollection<Enums.ErrorCode> ErrorCodes
 		{
 			get { return _errorCodes; }
 			private set {
 				_errorCodes = value;
 				OnPropertyChanged("ErrorCodes");
+			}
+		}
+
+		public String Log
+		{
+			get { return _log; }
+			set
+			{
+				_log = value;
+				OnPropertyChanged("Log");
 			}
 		}
 

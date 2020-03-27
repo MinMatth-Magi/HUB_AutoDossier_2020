@@ -19,11 +19,13 @@ namespace AutoDossier.ViewModels
 
 		#region Fields
 
+		private String _log;
+
+		private Models.MainSettings _mainSettings;
+
 		private ObservableCollection<Page> _pages;
 		private Models.FolderSchema _arborescence;
-		private Models.ScopedData _globalData;
 		private Models.FolderSchema _arborescenceModified;
-		private Models.ScopedData _globalDataModified;
 		private FolderSchemaViewModel _arborescenceViewModel;
 
 		#endregion
@@ -31,14 +33,14 @@ namespace AutoDossier.ViewModels
 
 		#region Constructors/Destructors
 
-		public SettingsViewModel(Models.FolderSchema mvp, Models.ScopedData globalData)
+		public SettingsViewModel(Models.MainSettings mainSettings, Models.FolderSchema mvp, String log)
 		{
+			_log = log;
+			_mainSettings = mainSettings;
 			_arborescence = mvp;
 			_arborescenceModified = new Models.FolderSchema();
 			_arborescenceModified.Copy(_arborescence);
-			_globalData = globalData;
-			_globalDataModified = new Models.ScopedData(_globalData);
-			_arborescenceViewModel = new FolderSchemaViewModel(_arborescenceModified);
+			_arborescenceViewModel = new FolderSchemaViewModel(_mainSettings, _arborescenceModified, null, _log);
 
 			_pages = new ObservableCollection<Page> {
 				new Views.Pages.GeneralSettings { DataContext = this, Title = "General" },
@@ -63,16 +65,13 @@ namespace AutoDossier.ViewModels
 			{
 				xs.Serialize(wr, _arborescence);
 			}
-			_globalData.Copy(_globalDataModified);
 		}
 
 		public void CancelChanges()
 		{
 			_arborescenceModified.Copy(_arborescence);
-			_globalDataModified = new Models.ScopedData(_globalData);
-			ArborescenceViewModel = new FolderSchemaViewModel(_arborescenceModified);
+			ArborescenceViewModel = new FolderSchemaViewModel(_mainSettings, _arborescenceModified, null, _log);
 			OnPropertyChanged("Arborescence");
-			OnPropertyChanged("GlobalData");
 		}
 
 		#endregion
@@ -88,17 +87,6 @@ namespace AutoDossier.ViewModels
 		#endregion
 
 
-		public void AddData(Models.ScopedData scopedData)
-		{
-			scopedData.ScopedDatas.Add(new Models.Data());
-		}
-
-		public void RemoveData(Models.Data data)
-		{
-			GlobalData.ScopedDatas.Remove(data);
-		}
-
-
 		public void AddSchema(string mode, ObservableCollection<Models.ISchema> schemaList)
 		{
 			if ("file" == mode)
@@ -112,6 +100,16 @@ namespace AutoDossier.ViewModels
 
 
 		#region Members
+
+		public Models.MainSettings MainSettings
+		{
+			get { return _mainSettings; }
+			set
+			{
+				_mainSettings = value;
+				OnPropertyChanged("MainSettings");
+			}
+		}
 
 
 		public ObservableCollection<Page> Pages
@@ -131,17 +129,6 @@ namespace AutoDossier.ViewModels
 			{
 				_arborescenceModified = value;
 				OnPropertyChanged("Arborescence");
-			}
-		}
-
-
-		public Models.ScopedData GlobalData
-		{
-			get { return _globalDataModified; }
-			set
-			{
-				_globalDataModified = value;
-				OnPropertyChanged("GlobalData");
 			}
 		}
 

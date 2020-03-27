@@ -56,6 +56,7 @@ namespace AutoDossier.Models
 			Tag = model.Tag;
 			Value = model.Value;
 			Data.Copy(model.Data);
+			Children = new ObservableCollection<XmlAnything<ISchema>>();
 			foreach (XmlAnything<ISchema> schema in model.Children) {
 				if (typeof(FolderSchema) == schema.Value.GetType()) {
 					FolderSchema tmp = new FolderSchema();

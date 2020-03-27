@@ -78,9 +78,13 @@
 									<TextBlock
 										Text="{Binding Path=Schema.Tag}"
 										Margin="10,0"/>
-									<TextBlock
-										Text="*state*"
-										HorizontalAlignment="Right"/>
+									<Button
+										Command="{Binding Path=EngineOnOffCommand}">
+										<Button.Content>
+											<TextBlock
+												Text="{Binding Path=Engine.IsActive}"/>
+										</Button.Content>
+									</Button>
 								</StackPanel>
 							</DataTemplate>
 						</ListView.ItemTemplate>

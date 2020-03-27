@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\EngineOnOffCommand.cs" />
+    <Compile Include="Commands\RemoveSchemaCommand.cs" />
     <Compile Include="Commands\AddFolderSchemaCommand.cs" />
     <Compile Include="Commands\AddFileSchemaCommand.cs" />
     <Compile Include="Commands\RemoveDataCommand.cs" />
@@ -65,6 +67,7 @@
     <Compile Include="Converters\TemplateSelector\SchemaEditTemplateSelector.cs" />
     <Compile Include="Enums\ErrorCode.cs" />
     <Compile Include="Models\AutoDossierEngine.cs" />
+    <Compile Include="Models\MainSettings.cs" />
     <Compile Include="Models\XmlAnything.cs" />
     <Compile Include="Models\Data.cs" />
     <Compile Include="Models\Schemas\FileSchema.cs" />
