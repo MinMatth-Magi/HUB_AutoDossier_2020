@@ -15,14 +15,14 @@ namespace AutoDossier.Commands
 
 		#region Fields
 
-		private ViewModels.ISchemaViewModel _viewModel;
+		private ViewModels.FolderSchemaViewModel _viewModel;
 
 		#endregion
 
 
 		#region Constructors/Destructors
 
-		public AddFileSchemaCommand(ViewModels.ISchemaViewModel viewModel)
+		public AddFileSchemaCommand(ViewModels.FolderSchemaViewModel viewModel)
 		{
 			_viewModel = viewModel;
 		}
@@ -43,7 +43,7 @@ namespace AutoDossier.Commands
 		}
 		public void Execute(object parameter)
 		{
-			_viewModel.AddSchema("file", parameter as ObservableCollection<Models.ISchema>);
+			_viewModel.AddSchema("file", parameter as ObservableCollection<Models.XmlAnything<Models.ISchema>>);
 		}
 
 		#endregion

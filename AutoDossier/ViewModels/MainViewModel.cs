@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml.Serialization;
 
@@ -19,12 +20,15 @@ namespace AutoDossier.ViewModels
 
 		private Models.FolderSchema _arborescence;
 		private Models.ScopedData _globalData;
-		private ViewModels.SettingsViewModel _settingsViewModel;
+		private SettingsViewModel _settingsViewModel;
 		private ObservableCollection<Enums.ErrorCode> _errorCodes;
+		private FolderSchemaViewModel _arborescenceViewModel;
+
+		private Models.AutoDossierEngine _engine;
 
 		#endregion
 
-		
+
 		#region Constructors/Destructors
 
 		public MainViewModel()
@@ -38,17 +42,12 @@ namespace AutoDossier.ViewModels
 					_arborescence = xs.Deserialize(rd) as Models.FolderSchema;
 				}
 			} catch (Exception) {
-				_arborescence = new Models.FolderSchema() {
-					Value = "C:/Desktop/AutoDossier",
-					Children = new ObservableCollection<Models.ISchema>() {
-						new Models.FolderSchema() {
-							Value = "{{name}}"
-						}
-					}
-				};
+				_arborescence = new Models.FolderSchema();
 			}
 			_settingsViewModel = _settingsViewModel = new SettingsViewModel(_arborescence, _globalData);
 			_errorCodes = new ObservableCollection<Enums.ErrorCode> { Enums.ErrorCode.NO_ERROR };
+			_arborescenceViewModel = new FolderSchemaViewModel(_arborescence);
+
 			OpenWindowCommand = new Commands.OpenWindowCommand(Commands.OpenWindowCommand.WindowType.SETTINGS, _settingsViewModel);
 			DummyDebugCommand = new Commands.DummyDebugCommand(this);
 		}
@@ -76,26 +75,28 @@ namespace AutoDossier.ViewModels
 
 		public Models.FolderSchema Arborescence
 		{
-			get
-			{
-				return _arborescence;
-			}
-			private set
-			{
+			get { return _arborescence; }
+			private set {
 				_arborescence = value;
 				OnPropertyChanged("Arborescence");
 			}
 		}
 
 
+		public FolderSchemaViewModel ArborescenceViewModel
+		{
+			get { return _arborescenceViewModel; }
+			set {
+				_arborescenceViewModel = value;
+				OnPropertyChanged("ArborescenceViewModel");
+			}
+		}
+
+
 		public Models.ScopedData GlobalData
 		{
-			get
-			{
-				return _globalData;
-			}
-			private set
-			{
+			get { return _globalData; }
+			private set {
 				_globalData = value;
 				OnPropertyChanged("GlobalData");
 			}
@@ -104,12 +105,8 @@ namespace AutoDossier.ViewModels
 
 		public ObservableCollection<Enums.ErrorCode> ErrorCodes
 		{
-			get
-			{
-				return _errorCodes;
-			}
-			private set
-			{
+			get { return _errorCodes; }
+			private set {
 				_errorCodes = value;
 				OnPropertyChanged("ErrorCodes");
 			}

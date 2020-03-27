@@ -61,15 +61,6 @@ namespace AutoDossier.ViewModels
 		}
 
 
-		public void AddSchema(string mode, ObservableCollection<Models.ISchema> schemaList)
-		{
-			if ("file" == mode)
-				schemaList.Add(new Models.FileSchema());
-			if ("folder" == mode)
-				schemaList.Add(new Models.FolderSchema());
-		}
-
-
 		#endregion
 
 
@@ -93,11 +84,6 @@ namespace AutoDossier.ViewModels
 		public ICommand AddDataCommand
 		{ get; private set; }
 		public ICommand RemoveDataCommand
-		{ get; private set; }
-
-		public ICommand AddFileSchemaCommand
-		{ get; private set; }
-		public ICommand AddFolderSchemaCommand
 		{ get; private set; }
 
 

@@ -19,6 +19,7 @@ namespace AutoDossier.Models
 
 		#region Fields
 
+		private string _tag;
 		private string _value;
 		private ScopedData _data;
 
@@ -34,6 +35,7 @@ namespace AutoDossier.Models
 
 		public FileSchema(FileSchema model)
 		{
+			Tag = model.Tag;
 			Value = model.Value;
 			Data = model.Data;
 		}
@@ -42,6 +44,13 @@ namespace AutoDossier.Models
 		{
 			Value = info.GetValue("Value", typeof(string)) as string;
 			Data = info.GetValue("Data", typeof(ScopedData)) as ScopedData;
+		}
+
+		public void Copy(FileSchema model)
+		{
+			Tag = model.Tag;
+			Value = model.Value;
+			Data.Copy(model.Data);
 		}
 
 		#endregion
@@ -53,6 +62,7 @@ namespace AutoDossier.Models
 
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
+			info.AddValue("Tag", Tag);
 			info.AddValue("Value", Value);
 			info.AddValue("Data", Data);
 		}
@@ -86,14 +96,18 @@ namespace AutoDossier.Models
 		#endregion
 
 
-		public void Copy(FileSchema model)
-		{
-			Value = model.Value;
-			Data = model.Data;
-		}
-
-
 		#region Properties
+
+		public string Tag
+		{
+			get { return _tag; }
+			set
+			{
+				_tag = value;
+				OnPropertyChanged("Tag");
+			}
+
+		}
 
 		public string Value
 		{

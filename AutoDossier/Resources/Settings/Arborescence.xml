@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FolderSchema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Tag>A</Tag>
+  <Value>a</Value>
+  <Data>
+    <ScopedDatas />
+  </Data>
+  <Children>
+    <XmlAnythingOfISchema type="AutoDossier.Models.FolderSchema, AutoDossier, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <FolderSchema>
+        <Tag>B</Tag>
+        <Value>B</Value>
+        <Data>
+          <ScopedDatas />
+        </Data>
+        <Children>
+          <XmlAnythingOfISchema type="AutoDossier.Models.FolderSchema, AutoDossier, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <FolderSchema>
+              <Tag>D</Tag>
+              <Value>D</Value>
+              <Data>
+                <ScopedDatas />
+              </Data>
+              <Children>
+                <XmlAnythingOfISchema type="AutoDossier.Models.FileSchema, AutoDossier, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                  <FileSchema>
+                    <Tag>E</Tag>
+                    <Value>E</Value>
+                    <Data>
+                      <ScopedDatas />
+                    </Data>
+                  </FileSchema>
+                </XmlAnythingOfISchema>
+                <XmlAnythingOfISchema type="AutoDossier.Models.FileSchema, AutoDossier, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                  <FileSchema>
+                    <Tag>F</Tag>
+                    <Value>F</Value>
+                    <Data>
+                      <ScopedDatas />
+                    </Data>
+                  </FileSchema>
+                </XmlAnythingOfISchema>
+              </Children>
+            </FolderSchema>
+          </XmlAnythingOfISchema>
+        </Children>
+      </FolderSchema>
+    </XmlAnythingOfISchema>
+    <XmlAnythingOfISchema type="AutoDossier.Models.FolderSchema, AutoDossier, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <FolderSchema>
+        <Tag>C</Tag>
+        <Value>C</Value>
+        <Data>
+          <ScopedDatas />
+        </Data>
+        <Children />
+      </FolderSchema>
+    </XmlAnythingOfISchema>
+    <XmlAnythingOfISchema type="AutoDossier.Models.FolderSchema, AutoDossier, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <FolderSchema>
+        <Tag>B</Tag>
+        <Value>B</Value>
+        <Data>
+          <ScopedDatas />
+        </Data>
+        <Children>
+          <XmlAnythingOfISchema type="AutoDossier.Models.FolderSchema, AutoDossier, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <FolderSchema>
+              <Tag>D</Tag>
+              <Value>D</Value>
+              <Data>
+                <ScopedDatas>
+                  <Data>
+                    <Name>Firstname</Name>
+                    <Value />
+                  </Data>
+                  <Data>
+                    <Name>Lastname</Name>
+                    <Value />
+                  </Data>
+                </ScopedDatas>
+              </Data>
+              <Children>
+                <XmlAnythingOfISchema type="AutoDossier.Models.FileSchema, AutoDossier, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                  <FileSchema>
+                    <Tag>E</Tag>
+                    <Value>E</Value>
+                    <Data>
+                      <ScopedDatas />
+                    </Data>
+                  </FileSchema>
+                </XmlAnythingOfISchema>
+                <XmlAnythingOfISchema type="AutoDossier.Models.FileSchema, AutoDossier, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                  <FileSchema>
+                    <Tag>F</Tag>
+                    <Value>F</Value>
+                    <Data>
+                      <ScopedDatas />
+                    </Data>
+                  </FileSchema>
+                </XmlAnythingOfISchema>
+              </Children>
+            </FolderSchema>
+          </XmlAnythingOfISchema>
+        </Children>
+      </FolderSchema>
+    </XmlAnythingOfISchema>
+    <XmlAnythingOfISchema type="AutoDossier.Models.FolderSchema, AutoDossier, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <FolderSchema>
+        <Tag>C</Tag>
+        <Value>C</Value>
+        <Data>
+          <ScopedDatas />
+        </Data>
+        <Children />
+      </FolderSchema>
+    </XmlAnythingOfISchema>
+  </Children>
+</FolderSchema>

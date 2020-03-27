@@ -9,6 +9,19 @@
 	Title="HUB - AutoDossier" Height="550" Width="1100"
 	Background="LightGray">
 
+	<Window.Resources>
+
+		<DataTemplate x:Key="ScopedDataTemplate">
+			<StackPanel
+				Orientation="Horizontal">
+				<TextBlock Text="{Binding Path=Name}"/>
+				<TextBlock Text=" : "/>
+				<TextBox Text="{Binding Path=Value}"/>
+			</StackPanel>
+		</DataTemplate>
+
+	</Window.Resources>
+
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto"/>
@@ -26,6 +39,51 @@
 			<MenuItem Header="_Settings"
 				Command="{Binding Path=OpenWindowCommand}"/>
 		</Menu>
+
+		<StackPanel
+			Grid.Row="1"
+			Orientation="Horizontal">
+			<GroupBox
+				Header="{Binding Path=ArborescenceViewModel.Schema.Tag}">
+				<StackPanel
+					Orientation="Vertical">
+
+					<!-- Value -->
+					<TextBlock
+						FontSize="8"
+						Foreground="DimGray"
+						Text="{Binding Path=ArborescenceViewModel.Schema.Value}"/>
+
+					<Separator/>
+
+					<!-- Datas -->
+					<ListView
+						Background="Transparent"
+						ItemsSource="{Binding Path=ArborescenceViewModel.Schema.Data.ScopedDatas}"
+						ItemTemplate="{StaticResource ResourceKey=ScopedDataTemplate}"/>
+
+					<!-- Folder Children -->
+					<ListView
+						Background="Transparent"
+						ItemsSource="{Binding Path=ArborescenceViewModel.FolderChildrenViewModels}"
+						SelectedItem="{Binding Path=ArborescenceViewModel.SelectedChild}"
+						SelectionMode="Single">
+						<ListView.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Path=Schema.Tag}"/>
+							</DataTemplate>
+						</ListView.ItemTemplate>
+					</ListView>
+
+				</StackPanel>
+			</GroupBox>
+
+			<!-- Selected Child -->
+			<Frame
+				NavigationUIVisibility="Hidden"
+				Content="{Binding Path=ArborescenceViewModel.ChildPage}"/>
+
+		</StackPanel>
 
 		<ListView
 			Grid.Row="2"

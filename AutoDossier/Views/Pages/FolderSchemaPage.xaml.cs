@@ -16,12 +16,14 @@ using System.Windows.Shapes;
 namespace AutoDossier.Views.Pages
 {
 
-	public partial class ArborescenceEditor : UserControl
+	public partial class FolderSchemaPage : Page
 	{
-		public ArborescenceEditor()
+
+		public FolderSchemaPage()
 		{
 			InitializeComponent();
 		}
+
 	}
 
 }

@@ -65,8 +65,10 @@
     <Compile Include="Converters\TemplateSelector\SchemaEditTemplateSelector.cs" />
     <Compile Include="Enums\ErrorCode.cs" />
     <Compile Include="Models\AutoDossierEngine.cs" />
+    <Compile Include="Models\XmlAnything.cs" />
     <Compile Include="Models\Data.cs" />
     <Compile Include="Models\Schemas\FileSchema.cs" />
+    <Compile Include="Models\Schemas\XmlSchema.cs" />
     <Compile Include="Models\Schemas\ISchema.cs" />
     <Compile Include="Models\ScopedData.cs" />
     <Compile Include="Models\Schemas\FolderSchema.cs" />
@@ -86,10 +88,17 @@
     <Compile Include="Views\Pages\DatasPage.xaml.cs">
       <DependentUpon>DatasPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Pages\FolderSchemaPage.xaml.cs">
+      <DependentUpon>FolderSchemaPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Windows\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\Pages\ArborescenceEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\FolderSchemaPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -140,13 +149,14 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Resource Include="Resources\Settings\mvp.xml" />
+    <Folder Include="Resources\Settings\" />
+    <Folder Include="Views\UserControls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

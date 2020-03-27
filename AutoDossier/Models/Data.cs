@@ -43,7 +43,7 @@ namespace AutoDossier.Models
 		public Data(SerializationInfo info, StreamingContext context)
 		{
 			Name = info.GetValue("Name", typeof(string)) as string;
-			Value = info.GetValue("Value", typeof(string)) as string;
+			Value = "";
 		}
 
 		#endregion
@@ -58,7 +58,6 @@ namespace AutoDossier.Models
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue("Name", Name);
-			info.AddValue("Value", Value);
 		}
 
 		#endregion

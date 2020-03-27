@@ -14,8 +14,6 @@ namespace AutoDossier.ViewModels
 		void AddData(Models.ScopedData data);
 		void RemoveData(Models.Data data);
 
-		void AddSchema(string mode, ObservableCollection<Models.ISchema> schemaList);
-
 	}
 
 }

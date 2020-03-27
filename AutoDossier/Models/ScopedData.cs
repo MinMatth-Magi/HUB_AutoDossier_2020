@@ -89,7 +89,6 @@ namespace AutoDossier.Models
 		#endregion
 
 
-
 		public void Copy(ScopedData scopedData)
 		{
 			ScopedDatas = new ObservableCollection<Data>();

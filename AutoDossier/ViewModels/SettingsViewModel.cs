@@ -34,7 +34,8 @@ namespace AutoDossier.ViewModels
 		public SettingsViewModel(Models.FolderSchema mvp, Models.ScopedData globalData)
 		{
 			_arborescence = mvp;
-			_arborescenceModified = new Models.FolderSchema(_arborescence);
+			_arborescenceModified = new Models.FolderSchema();
+			_arborescenceModified.Copy(_arborescence);
 			_globalData = globalData;
 			_globalDataModified = new Models.ScopedData(_globalData);
 			_arborescenceViewModel = new FolderSchemaViewModel(_arborescenceModified);
@@ -58,7 +59,7 @@ namespace AutoDossier.ViewModels
 		{
 			_arborescence.Copy(_arborescenceModified);
 			XmlSerializer xs = new XmlSerializer(typeof(Models.FolderSchema));
-			using (StreamWriter wr = new StreamWriter("Resources/Settings/mvp.xml"))
+			using (StreamWriter wr = new StreamWriter("Resources/Settings/Arborescence.xml"))
 			{
 				xs.Serialize(wr, _arborescence);
 			}
@@ -67,8 +68,9 @@ namespace AutoDossier.ViewModels
 
 		public void CancelChanges()
 		{
-			_arborescenceModified = new Models.FolderSchema(_arborescence);
+			_arborescenceModified.Copy(_arborescence);
 			_globalDataModified = new Models.ScopedData(_globalData);
+			ArborescenceViewModel = new FolderSchemaViewModel(_arborescenceModified);
 			OnPropertyChanged("Arborescence");
 			OnPropertyChanged("GlobalData");
 		}

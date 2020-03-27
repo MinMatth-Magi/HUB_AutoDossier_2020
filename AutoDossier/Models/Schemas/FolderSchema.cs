@@ -19,9 +19,10 @@ namespace AutoDossier.Models
 
 		#region Fields
 
+		private string _tag;
 		private string _value;
 		private ScopedData _data;
-		private ObservableCollection<ISchema> _children;
+		private ObservableCollection<XmlAnything<ISchema>> _children;
 
 		#endregion
 
@@ -31,11 +32,12 @@ namespace AutoDossier.Models
 		public FolderSchema()
 		{
 			_data = new ScopedData();
-			_children = new ObservableCollection<ISchema>();
+			_children = new ObservableCollection<XmlAnything<ISchema>>();
 		}
 
 		public FolderSchema(FolderSchema model)
 		{
+			Tag = model.Tag;
 			Value = model.Value;
 			Data = model.Data;
 			Children = model.Children;
@@ -43,9 +45,29 @@ namespace AutoDossier.Models
 
 		public FolderSchema(SerializationInfo info, StreamingContext context)
 		{
+			Tag = info.GetValue("Tag", typeof(string)) as string;
 			Value = info.GetValue("Value", typeof(string)) as string;
 			Data = info.GetValue("Data", typeof(ScopedData)) as ScopedData;
-			Children = info.GetValue("Children", typeof(ObservableCollection<ISchema>)) as ObservableCollection<ISchema>;
+			Children = info.GetValue("Children", typeof(ObservableCollection<XmlAnything<ISchema>>)) as ObservableCollection<XmlAnything<ISchema>>;
+		}
+
+		public void Copy(FolderSchema model)
+		{
+			Tag = model.Tag;
+			Value = model.Value;
+			Data.Copy(model.Data);
+			foreach (XmlAnything<ISchema> schema in model.Children) {
+				if (typeof(FolderSchema) == schema.Value.GetType()) {
+					FolderSchema tmp = new FolderSchema();
+					tmp.Copy(schema.Value as FolderSchema);
+					Children.Add(new XmlAnything<ISchema>(tmp));
+				}
+				if (typeof(FileSchema) == schema.Value.GetType()) {
+					FileSchema tmp = new FileSchema();
+					tmp.Copy(schema.Value as FileSchema);
+					Children.Add(new XmlAnything<ISchema>(tmp));
+				}
+			}
 		}
 
 		#endregion
@@ -57,6 +79,7 @@ namespace AutoDossier.Models
 
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
+			info.AddValue("Tag", Tag);
 			info.AddValue("Value", Value);
 			info.AddValue("Data", Data);
 			info.AddValue("Children", Children);
@@ -91,16 +114,18 @@ namespace AutoDossier.Models
 		#endregion
 
 
+		#region Properties
 
-		public void Copy(FolderSchema model)
+		public string Tag
 		{
-			Value = model.Value;
-			Data = model.Data;
-			Children = model.Children;
+			get { return _tag; }
+			set
+			{
+				_tag = value;
+				OnPropertyChanged("Tag");
+			}
 		}
 
-
-		#region Properties
 
 		public string Value
 		{
@@ -122,7 +147,7 @@ namespace AutoDossier.Models
 			}
 		}
 
-		public ObservableCollection<ISchema> Children
+		public ObservableCollection<XmlAnything<ISchema>> Children
 		{
 			get { return _children; }
 			set

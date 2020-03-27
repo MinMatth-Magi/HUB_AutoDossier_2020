@@ -21,6 +21,9 @@ namespace AutoDossier.ViewModels
 
 		private Models.FolderSchema _schema;
 		private ObservableCollection<ISchemaViewModel> _schemasViewModels;
+		private Page _page = new Views.Pages.FolderSchemaPage();
+		private FolderSchemaViewModel _selectedChild;
+		private Views.Pages.FolderSchemaPage _childPage = new Views.Pages.FolderSchemaPage();
 
 		#endregion
 
@@ -31,12 +34,11 @@ namespace AutoDossier.ViewModels
 		{
 			_schema = schema;
 			_schemasViewModels = new ObservableCollection<ISchemaViewModel>();
-			foreach (Models.ISchema child in  _schema.Children)
-			{
-				if (typeof(Models.FolderSchema) == child.GetType())
-					_schemasViewModels.Add(new FolderSchemaViewModel(child as Models.FolderSchema));
-				if (typeof(Models.FileSchema) == child.GetType())
-					_schemasViewModels.Add(new FileSchemaViewModel(child as Models.FileSchema));
+			foreach (Models.XmlAnything<Models.ISchema> xmlChild in  _schema.Children) {
+				if (typeof(Models.FolderSchema) == xmlChild.Value.GetType())
+					_schemasViewModels.Add(new FolderSchemaViewModel(xmlChild.Value as Models.FolderSchema));
+				if (typeof(Models.FileSchema) == xmlChild.Value.GetType())
+					_schemasViewModels.Add(new FileSchemaViewModel(xmlChild.Value as Models.FileSchema));
 			}
 
 			AddDataCommand = new Commands.AddDataCommand(this);
@@ -72,17 +74,21 @@ namespace AutoDossier.ViewModels
 		}
 
 
-		public void AddSchema(string mode, ObservableCollection<Models.ISchema> schemaList)
+		public void AddSchema(string mode, ObservableCollection<Models.XmlAnything<Models.ISchema>> schemaList)
 		{
 			if ("file" == mode) {
 				FileSchemaViewModel newSchema = new FileSchemaViewModel(new Models.FileSchema());
+				Models.XmlAnything<Models.ISchema> xmlAnything = new Models.XmlAnything<Models.ISchema>();
+				xmlAnything.Value = newSchema.Schema;
 				ChildrenViewModels.Add(newSchema);
-				schemaList.Add(newSchema.Schema);
+				schemaList.Add(xmlAnything);
 			}
 			if ("folder" == mode) {
 				FolderSchemaViewModel newSchema= new FolderSchemaViewModel(new Models.FolderSchema());
+				Models.XmlAnything<Models.ISchema> xmlAnything = new Models.XmlAnything<Models.ISchema>();
+				xmlAnything.Value = newSchema.Schema;
 				ChildrenViewModels.Add(newSchema);
-				schemaList.Add(newSchema.Schema);
+				schemaList.Add(xmlAnything);
 			}
 		}
 
@@ -104,6 +110,29 @@ namespace AutoDossier.ViewModels
 		}
 
 
+		public FolderSchemaViewModel SelectedChild
+		{
+			get { return _selectedChild; }
+			set {
+				_selectedChild = value;
+				OnPropertyChanged("SelectedChild");
+				ChildPage = new Views.Pages.FolderSchemaPage()
+					{ DataContext = _selectedChild };
+			}
+		}
+
+
+		public Page ChildPage
+		{
+			get { return (null != SelectedChild) ? _childPage : null; }
+			private set
+			{
+				_childPage = value as Views.Pages.FolderSchemaPage;
+				OnPropertyChanged("ChildPage");
+			}
+		}
+
+
 		public ObservableCollection<ISchemaViewModel> ChildrenViewModels
 		{
 			get { return _schemasViewModels; }
@@ -111,6 +140,30 @@ namespace AutoDossier.ViewModels
 			{
 				_schemasViewModels = value;
 				OnPropertyChanged("ChildrenViewModels");
+			}
+		}
+
+
+		public ObservableCollection<ISchemaViewModel> FolderChildrenViewModels
+		{
+			get {
+				ObservableCollection<ISchemaViewModel> folderChildrenViewModels = new ObservableCollection<ISchemaViewModel>();
+				foreach (ISchemaViewModel schemaViewModel in _schemasViewModels)
+					if (typeof(FolderSchemaViewModel) == schemaViewModel.GetType())
+						folderChildrenViewModels.Add(schemaViewModel);
+				return folderChildrenViewModels;
+			}
+		}
+
+
+		public ObservableCollection<ISchemaViewModel> FileChildrenViewModels
+		{
+			get {
+				ObservableCollection<ISchemaViewModel> fileChildrenViewModels = new ObservableCollection<ISchemaViewModel>();
+				foreach (ISchemaViewModel schemaViewModel in _schemasViewModels)
+					if (typeof(FileSchemaViewModel) == schemaViewModel.GetType())
+						fileChildrenViewModels.Add(schemaViewModel);
+				return fileChildrenViewModels;
 			}
 		}
 
